@@ -1,13 +1,21 @@
 plugins {
   id "org.openapi.generator" version "5.0.0"
+  id "de.undercouch.download" version "4.1.1"
 }
 
 repositories {
   mavenCentral()
 }
 
+task downloadFile(type: Download) {
+ src "https://raw.githubusercontent.com/OAI/OpenAPI-Specification/master/examples/v3.0/petstore.yaml"
+ dest buildDir
+ onlyIfModified true
+ useETag true
+}
+
 openApiGenerate {
-  inputSpec = "https://raw.githubusercontent.com/OAI/OpenAPI-Specification/master/examples/v3.0/petstore.yaml"
+  inputSpec = "$buildDir/petstore.yaml"
   outputDir = "$projectDir/client"
   configOptions = [
       java8                  : "true",
@@ -20,4 +28,6 @@ openApiGenerate {
   groupId = "com.example"
   id = "client"
   version = "1.0.0-SNAPSHOT"
+
 }
+tasks.openApiGenerate.dependsOn tasks.downloadFile
