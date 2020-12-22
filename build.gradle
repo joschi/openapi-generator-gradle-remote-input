@@ -1,0 +1,23 @@
+plugins {
+  id "org.openapi.generator" version "5.0.0"
+}
+
+repositories {
+  mavenCentral()
+}
+
+openApiGenerate {
+  inputSpec = "https://raw.githubusercontent.com/OAI/OpenAPI-Specification/master/examples/v3.0/petstore.yaml"
+  outputDir = "$projectDir/client"
+  configOptions = [
+      java8                  : "true",
+      dateLibrary            : "java8",
+      serializationLibrary   : "jackson",
+      useRuntimeException    : "true"
+  ]
+  generatorName = "java"
+  library = "rest-assured"
+  groupId = "com.example"
+  id = "client"
+  version = "1.0.0-SNAPSHOT"
+}
